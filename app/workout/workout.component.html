@@ -1,1 +1,20 @@
-<h1>Workout</h1>
+<h1>Workouts</h1>
+<a class="btn btn-primary">Add Workout</a>
+
+
+<div class="row" *ngFor="#workout of workouts">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ workout.name }}</div>
+        <div class="panel-body">
+            <p>...</p>
+        </div>
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./workout.service"], function(exports_1, context_1) {
+System.register(["angular2/core", "./mock-workout"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,35 +10,31 @@ System.register(['angular2/core', "./workout.service"], function(exports_1, cont
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, workout_service_1;
-    var WorkoutComponent;
+    var core_1, mock_workout_1;
+    var WorkoutService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (workout_service_1_1) {
-                workout_service_1 = workout_service_1_1;
+            function (mock_workout_1_1) {
+                mock_workout_1 = mock_workout_1_1;
             }],
         execute: function() {
-            WorkoutComponent = (function () {
-                function WorkoutComponent(_workoutService) {
-                    this._workoutService = _workoutService;
+            WorkoutService = (function () {
+                function WorkoutService() {
                 }
-                WorkoutComponent.prototype.ngOnInit = function () {
-                    this.workouts = this._workoutService.getWorkouts();
+                WorkoutService.prototype.getWorkouts = function () {
+                    return mock_workout_1.WORKOUTS;
                 };
-                WorkoutComponent = __decorate([
-                    core_1.Component({
-                        templateUrl: 'app/workout/workout.component.html',
-                        providers: [workout_service_1.WorkoutService]
-                    }), 
-                    __metadata('design:paramtypes', [workout_service_1.WorkoutService])
-                ], WorkoutComponent);
-                return WorkoutComponent;
+                WorkoutService = __decorate([
+                    core_1.Injectable(), 
+                    __metadata('design:paramtypes', [])
+                ], WorkoutService);
+                return WorkoutService;
             }());
-            exports_1("WorkoutComponent", WorkoutComponent);
+            exports_1("WorkoutService", WorkoutService);
         }
     }
 });
-//# sourceMappingURL=workout.component.js.map
+//# sourceMappingURL=workout.service.js.map

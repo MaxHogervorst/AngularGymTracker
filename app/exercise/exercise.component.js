@@ -30,7 +30,8 @@ System.register(['angular2/core', "./exercise.service"], function(exports_1, con
                 };
                 ExerciseComponent = __decorate([
                     core_1.Component({
-                        templateUrl: 'app/exercise/exercise.component.html'
+                        templateUrl: 'app/exercise/exercise.component.html',
+                        providers: [exercise_service_1.ExerciseService]
                     }), 
                     __metadata('design:paramtypes', [exercise_service_1.ExerciseService])
                 ], ExerciseComponent);
