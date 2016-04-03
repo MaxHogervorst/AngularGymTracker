@@ -1,0 +1,16 @@
+<div class="panel panel-default exercise-block-form">
+    <div class="panel-body">
+        <div class="form-group">
+            <label for="Exercise">Exercise</label>
+            <select class="form-control" id="Exercise" (change)="updateExercise(u.value)" #u>
+                <option *ngFor="#exercise of exercises" value="{{ exercise.id}}">{{ exercise.name }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="form-inline">
+            <label for="Reps">Reps</label>
+            <input type="number" class="form-control" id="Reps" (change)="updateReps(x.value)" #x>
+        </div>
+    </div>
+</div>

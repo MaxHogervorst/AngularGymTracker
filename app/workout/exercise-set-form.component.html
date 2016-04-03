@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <exercise-set-details-form (change)="onSetDetailChange($event)"></exercise-set-details-form>
+            <div #hook></div>
+            <div class="exercise-block">
+                <a class="btn btn-primary btn-lg" (click)="addWorkoutExerciseSetDetail()">
+                    <i class="fa fa-plus fa-3"></i>
+                </a>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="form-inline">
+                <label for="ExerciseSetType">Exercise Set Type</label>
+                <select class="form-control" id="ExerciseSetType" (change)="updateWorkout(u.value)" #u>
+                    <option value="Normal">Normal</option>
+                    <option value="Superset">Superset</option>
+                    <option value="Dropset">Dropset</option>
+                </select>
+
+            </div>
+        </div>
+    </div>
+</div>

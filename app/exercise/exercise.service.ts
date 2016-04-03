@@ -10,6 +10,11 @@ import {MUSCLEGROUPS} from "./mock-musclegroups";
 @Injectable()
 export class ExerciseService{
 
+    getExercise(id): Exercise{
+        return _.find(EXERCISES, function(ex){
+            return ex.id == id;
+        });
+    }
     getExercises(): Exercise[]{
         return EXERCISES;
     }

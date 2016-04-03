@@ -12,4 +12,20 @@ export class WorkoutService {
     {
         return WORKOUTS;
     }
+    getWorkout(workoutId){
+        return _.findwhere(WORKOUTS, {id: workoutId});
+    }
+    addWorkout(workout: Workout){
+        WORKOUTS.push(workout);
+    }
+
+    deleteWorkout(workoutId){
+        return _.without(WORKOUTS, _.findwhere(WORKOUTS, {id: workoutId}));
+    }
+
+    updateWorkout(workout: Workout){
+        return _.extend(WORKOUTS, _.findwhere(WORKOUTS, {id: workout.id}), workout);
+    }
+    
+    
 }

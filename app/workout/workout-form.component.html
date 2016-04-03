@@ -1,0 +1,23 @@
+<form  [ngFormModel]="form">
+    <div class="form-group">
+        <label for="workoutName">Workout Name</label>
+        <input type="text" class="form-control" id="workoutName">
+    </div>
+
+
+    <exercise-set-form (change)="onSetChange($event)"></exercise-set-form>
+    <div #hook></div>
+    <div class="row">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" (click)="addSet()" >Add Set</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Save Workout</button>
+        </div>
+    </div>
+
+
+</form>

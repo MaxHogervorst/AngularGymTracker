@@ -4,7 +4,7 @@ import {Exercise} from "./exercise";
  */
 
 export var EXERCISES: Exercise[] = [
-    { "name": "chestpress", "musclegroup": { "name": "chest"}},
-    { "name": "chestpress", "musclegroup": { "name": "chest"}},
-    { "name": "chestpress", "musclegroup": { "name": "chest"}}
+    { "id": 1, "name": "chestpress", "musclegroup": { "name": "chest"}},
+    { "id": 2, "name": "chestpress", "musclegroup": { "name": "chest"}},
+    { "id": 3, "name": "chestpress", "musclegroup": { "name": "chest"}}
 ]

@@ -1,0 +1,18 @@
+
+#workout-container{
+    border-width: 1px;
+    border-color: #ddd;
+    border-radius: 4px 4px 0 0;
+}
+
+.exercise-block{
+    width: 100px;
+    float: left;
+    margin-left: 20px;
+}
+
+.exercise-block-form{
+    width: 300px;
+    float: left;
+    margin-left: 20px;
+}

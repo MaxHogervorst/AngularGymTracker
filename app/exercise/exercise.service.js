@@ -27,6 +27,11 @@ System.register(["angular2/core", "./mock-exercises", "./mock-musclegroups"], fu
             ExerciseService = (function () {
                 function ExerciseService() {
                 }
+                ExerciseService.prototype.getExercise = function (id) {
+                    return _.find(mock_exercises_1.EXERCISES, function (ex) {
+                        return ex.id == id;
+                    });
+                };
                 ExerciseService.prototype.getExercises = function () {
                     return mock_exercises_1.EXERCISES;
                 };
