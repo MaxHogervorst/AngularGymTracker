@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./exercise-set-details", "../exercise/exercise.service", "./exercise-set"], function(exports_1, context_1) {
+System.register(['angular2/core', "./exercise-set-details", "../exercise/exercise.service", "rxjs/Subject"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "./exercise-set-details", "../exercise/exercis
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, exercise_set_details_1, exercise_service_1, exercise_set_1;
+    var core_1, exercise_set_details_1, exercise_service_1, Subject_1;
     var ExerciseSetDetailsForm;
     return {
         setters:[
@@ -23,35 +23,30 @@ System.register(['angular2/core', "./exercise-set-details", "../exercise/exercis
             function (exercise_service_1_1) {
                 exercise_service_1 = exercise_service_1_1;
             },
-            function (exercise_set_1_1) {
-                exercise_set_1 = exercise_set_1_1;
+            function (Subject_1_1) {
+                Subject_1 = Subject_1_1;
             }],
         execute: function() {
             ExerciseSetDetailsForm = (function () {
                 function ExerciseSetDetailsForm(_exerciseService) {
                     this._exerciseService = _exerciseService;
-                    this.change = new core_1.EventEmitter();
                     this.execiseSetDetail = new exercise_set_details_1.ExerciseSetDetails();
+                    this.test = new Subject_1.Subject();
                 }
                 ExerciseSetDetailsForm.prototype.ngOnInit = function () {
                     this.exercises = this._exerciseService.getExercises();
                 };
                 ExerciseSetDetailsForm.prototype.updateReps = function (value) {
                     this.execiseSetDetail.reps = value;
-                    this.change.emit(this.execiseSetDetail);
+                    this.test.next(this.execiseSetDetail);
                 };
                 ExerciseSetDetailsForm.prototype.updateExercise = function (value) {
                     this.execiseSetDetail.exercise = this._exerciseService.getExercise(value);
-                    this.change.emit(this.execiseSetDetail);
+                    this.test.next(this.execiseSetDetail);
                 };
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', exercise_set_1.ExerciseSet)
-                ], ExerciseSetDetailsForm.prototype, "_exerciseSet", void 0);
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', Object)
-                ], ExerciseSetDetailsForm.prototype, "change", void 0);
+                ExerciseSetDetailsForm.prototype.remove = function () {
+                    this.test.complete();
+                };
                 ExerciseSetDetailsForm = __decorate([
                     core_1.Component({
                         selector: 'exercise-set-details-form',

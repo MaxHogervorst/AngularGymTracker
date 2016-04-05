@@ -1,7 +1,9 @@
 <div class="row">
     <div class="panel panel-default">
+        <div class="zero-clipboard">
+            <a class="btn btn-danger btn-clipboard btn-sm" (click)="remove()" ><i class="fa fa-trash"></i> </a>
+        </div>
         <div class="panel-body">
-            <exercise-set-details-form (change)="onSetDetailChange($event)"></exercise-set-details-form>
             <div #hook></div>
             <div class="exercise-block">
                 <a class="btn btn-primary btn-lg" (click)="addWorkoutExerciseSetDetail()">

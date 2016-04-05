@@ -1,8 +1,13 @@
-import {Component, OnInit, Input, DynamicComponentLoader, ElementRef, EventEmitter, Output} from 'angular2/core';
+import {
+    Component, OnInit, Input, DynamicComponentLoader, ElementRef, EventEmitter, Output,
+    ComponentRef, Renderer
+} from 'angular2/core';
 import {ExerciseSet} from "./exercise-set";
 import {ExerciseService} from "../exercise/exercise.service";
 import {ExerciseSetDetailsForm} from "./exercise-set-details-form.component";
 import {Workout} from "./workout";
+import {Subject} from "rxjs/Subject";
+import {ExerciseSetDetails} from "./exercise-set-details";
 
 function compileToComponent(template, directives) {
     @Component({
@@ -27,32 +32,62 @@ function compileToComponent(template, directives) {
 })
 export class ExerciseSetForm implements OnInit{
 
-    @Input() _workout: Workout;
-    @Output() change = new EventEmitter();
 
     exerciseset = new ExerciseSet();
+    output: Subject<ExerciseSet> = new Subject();
+    id = 1;
 
     constructor(
         private _dcl: DynamicComponentLoader,
         private _elementRef: ElementRef
-    ){}
+    ){
+       
+    }
 
     ngOnInit(){
-
+        this.exerciseset.exercises = [];
+        this.addWorkoutExerciseSetDetail();
     }
 
     addWorkoutExerciseSetDetail(){
-
-        var setdetail = '<exercise-set-details-form (change)="onSetDetailChange($event)"></exercise-set-details-form>';
-        this._dcl.loadIntoLocation(ExerciseSetDetailsForm, this._elementRef, 'hook').then;
-
+        this._dcl.loadIntoLocation(ExerciseSetDetailsForm, this._elementRef, 'hook').then((ref: ComponentRef) => {
+            ref.instance.test.subscribe(
+                v => { this.onSetDetailChange(v); },
+                e => { console.log("Error: " + e)},
+                () => {this.deleteSetDetail(ref)}
+            );
+            ref.instance.execiseSetDetail.id = this.id;
+            this.id++;
+        });
+    }
+    remove(){
+        this.output.complete();
     }
 
+
     onSetDetailChange($event){
+        var found  = false;
+
+        for(var key in this.exerciseset.exercises){
+            if($event.id == this.exerciseset.exercises[key].id){
+                found = true;
+                this.exerciseset.exercises[key] = $event;
+            }
+        }
+
+        if(!found)
+            this.exerciseset.exercises.push($event);
+
         console.log($event);
+        console.log(this.exerciseset);
+    }
+    deleteSetDetail(element: ComponentRef){
+        _.reject(this.exerciseset.exercises, function (x) { return x.id == element.instance.execiseSetDetail.id});
+        console.log(element);
+        //element.dispose();
     }
     updateWorkout(type){
         this.exerciseset.type = type;
-        this.change.emit(this.exerciseset);
+        this.output.next(this.exerciseset);
     }
 }

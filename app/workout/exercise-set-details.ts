@@ -4,6 +4,7 @@ import {Exercise} from "../exercise/exercise";
  */
 export class ExerciseSetDetails
 {
+    id: number;
     exercise: Exercise;
     reps: number;
 }

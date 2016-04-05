@@ -16,3 +16,12 @@
     float: left;
     margin-left: 20px;
 }
+
+.zero-clipboard {
+    position: relative;
+}
+.btn-clipboard {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}

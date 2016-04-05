@@ -1,4 +1,4 @@
-import {Component, OnInit, DynamicComponentLoader, ElementRef} from 'angular2/core';
+import {Component, OnInit, DynamicComponentLoader, ElementRef, ComponentRef} from 'angular2/core';
 import {FormBuilder, ControlGroup} from 'angular2/common';
 import {CanDeactivate, Router, RouteParams} from 'angular2/router';
 
@@ -38,6 +38,7 @@ export class WorkoutFormComponent implements OnInit, CanDeactivate {
     }
 
     ngOnInit(){
+        this.addWorkoutExerciseSet();
         var id = this._routeParams.get("id");
 
         this.title = id ? "Edit Workout" : "New Workout";
@@ -70,14 +71,27 @@ export class WorkoutFormComponent implements OnInit, CanDeactivate {
         });
     }
 
-    addSet(){
-        var setdetail = '<exercise-set-form _workout="workout"></exercise-set-form>';
-        this._dcl.loadIntoLocation(compileToComponent(setdetail, [ExerciseSetForm]), this._elementRef, 'hook');
-    }
     
     onSetChange($event){
-       
+       console.log($event);
+
     }
+
+
+    addWorkoutExerciseSet(){
+        this._dcl.loadIntoLocation(ExerciseSetForm, this._elementRef, 'hook').then((ref: ComponentRef) => {
+            ref.instance.output.subscribe(
+                v => { this.onSetChange(v); },
+                e => { console.log("Error: " + e)},
+                () => {this.deleteSet(ref)})
+        });
+
+    }
+
+    deleteSet(ref: ComponentRef){
+        ref.dispose();
+    }
+
 
   
 
