@@ -45,7 +45,8 @@ System.register(['angular2/core', "./exercise-set-details", "../exercise/exercis
                     this.test.next(this.execiseSetDetail);
                 };
                 ExerciseSetDetailsForm.prototype.remove = function () {
-                    this.test.complete();
+                    if (confirm("Are you sure you want to delete this set details?"))
+                        this.test.complete();
                 };
                 ExerciseSetDetailsForm = __decorate([
                     core_1.Component({

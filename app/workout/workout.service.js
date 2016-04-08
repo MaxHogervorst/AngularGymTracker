@@ -28,16 +28,16 @@ System.register(["angular2/core", "./mock-workout"], function(exports_1, context
                     return mock_workout_1.WORKOUTS;
                 };
                 WorkoutService.prototype.getWorkout = function (workoutId) {
-                    return _.findwhere(mock_workout_1.WORKOUTS, { id: workoutId });
+                    return _.findWhere(mock_workout_1.WORKOUTS, { id: workoutId });
                 };
                 WorkoutService.prototype.addWorkout = function (workout) {
                     mock_workout_1.WORKOUTS.push(workout);
                 };
                 WorkoutService.prototype.deleteWorkout = function (workoutId) {
-                    return _.without(mock_workout_1.WORKOUTS, _.findwhere(mock_workout_1.WORKOUTS, { id: workoutId }));
+                    return _.without(mock_workout_1.WORKOUTS, _.findWhere(mock_workout_1.WORKOUTS, { id: workoutId }));
                 };
                 WorkoutService.prototype.updateWorkout = function (workout) {
-                    return _.extend(mock_workout_1.WORKOUTS, _.findwhere(mock_workout_1.WORKOUTS, { id: workout.id }), workout);
+                    return _.extend(mock_workout_1.WORKOUTS, _.findWhere(mock_workout_1.WORKOUTS, { id: workout.id }), workout);
                 };
                 WorkoutService = __decorate([
                     core_1.Injectable(), 

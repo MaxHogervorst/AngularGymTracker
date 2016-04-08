@@ -5,15 +5,10 @@ import {CanDeactivate, Router, RouteParams} from 'angular2/router';
 import {WorkoutService} from "./workout.service";
 import {Workout} from "./workout";
 import {ExerciseSetForm} from "./exercise-set-form.component";
+import {Helper} from '../assets/helper.functions';
 
-function compileToComponent(template, directives) {
-    @Component({
-        selector: 'fake',
-        template , directives
-    })
-    class FakeComponent {};
-    return FakeComponent;
-}
+
+
 
 @Component({
     selector: 'workout-form',
@@ -25,6 +20,7 @@ export class WorkoutFormComponent implements OnInit, CanDeactivate {
     form: ControlGroup;
     title: string;
     workout = new Workout();
+    id = 1;
     constructor(
         fb: FormBuilder,
         private _router: Router,
@@ -38,16 +34,23 @@ export class WorkoutFormComponent implements OnInit, CanDeactivate {
     }
 
     ngOnInit(){
-        this.addWorkoutExerciseSet();
+
         var id = this._routeParams.get("id");
 
         this.title = id ? "Edit Workout" : "New Workout";
 
-        this.workout.name = "test";
-        if (!id)
+        //new
+        if (!id) {
+            this.addWorkoutExerciseSet();
+            this.workout.exerciseSets = [];
             return;
-
+        }
+        //edit
         this.workout = this._workoutService.getWorkout(id);
+        console.log(this.workout);
+        for(var key in this.workout.exerciseSets){
+            this.addWorkoutExerciseSet(this.workout.exerciseSets[key]);
+        }
     }
 
     routerCanDeactivate(){
@@ -62,7 +65,7 @@ export class WorkoutFormComponent implements OnInit, CanDeactivate {
         if (this.workout.id)
             result = this._workoutService.updateWorkout(this.workout);
         else
-            result = this._workoutService.addWorkout(this.workout)
+            result = this._workoutService.addWorkout(this.workout);
 
         result.subscribe(x => {
             // Ideally, here we'd want:
@@ -73,23 +76,26 @@ export class WorkoutFormComponent implements OnInit, CanDeactivate {
 
     
     onSetChange($event){
-       console.log($event);
-
+        this.workout.exerciseSets = Helper.onChange($event, this.workout.exerciseSets);
     }
 
 
-    addWorkoutExerciseSet(){
+    addWorkoutExerciseSet($instance?){
         this._dcl.loadIntoLocation(ExerciseSetForm, this._elementRef, 'hook').then((ref: ComponentRef) => {
             ref.instance.output.subscribe(
                 v => { this.onSetChange(v); },
                 e => { console.log("Error: " + e)},
-                () => {this.deleteSet(ref)})
+                () => {
+                    this.workout.exerciseSets = Helper.deleteSet(ref, this.workout.exerciseSets, ref.instance.exerciseset)
+                });
+            if(typeof $instance == 'undefined') {
+                ref.instance.exerciseset.id = this.id;
+                this.id++;
+            }else{
+                console.log($instance);
+            }
         });
 
-    }
-
-    deleteSet(ref: ComponentRef){
-        ref.dispose();
     }
 
 

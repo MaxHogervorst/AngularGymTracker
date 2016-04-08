@@ -41,7 +41,8 @@ export class ExerciseSetDetailsForm implements OnInit{
         this.test.next(this.execiseSetDetail);
     }
     remove(){
-        this.test.complete();
+        if(confirm("Are you sure you want to delete this set details?"))
+            this.test.complete();
     }
 
 

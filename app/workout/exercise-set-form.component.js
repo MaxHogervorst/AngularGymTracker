@@ -1,4 +1,4 @@
-System.register(['angular2/core', "./exercise-set", "../exercise/exercise.service", "./exercise-set-details-form.component", "rxjs/Subject"], function(exports_1, context_1) {
+System.register(['angular2/core', "./exercise-set", "../exercise/exercise.service", "./exercise-set-details-form.component", "rxjs/Subject", '../assets/helper.functions'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,28 +10,8 @@ System.register(['angular2/core', "./exercise-set", "../exercise/exercise.servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, exercise_set_1, exercise_service_1, exercise_set_details_form_component_1, Subject_1;
+    var core_1, exercise_set_1, exercise_service_1, exercise_set_details_form_component_1, Subject_1, helper_functions_1;
     var ExerciseSetForm;
-    function compileToComponent(template, directives) {
-        var FakeComponent = (function () {
-            function FakeComponent() {
-            }
-            FakeComponent.prototype.onSetDetailChange = function ($event) {
-                console.log("hier");
-                console.log($event);
-            };
-            FakeComponent = __decorate([
-                core_1.Component({
-                    selector: 'fake',
-                    template: template, directives: directives
-                }), 
-                __metadata('design:paramtypes', [])
-            ], FakeComponent);
-            return FakeComponent;
-        }());
-        ;
-        return FakeComponent;
-    }
     return {
         setters:[
             function (core_1_1) {
@@ -48,6 +28,9 @@ System.register(['angular2/core', "./exercise-set", "../exercise/exercise.servic
             },
             function (Subject_1_1) {
                 Subject_1 = Subject_1_1;
+            },
+            function (helper_functions_1_1) {
+                helper_functions_1 = helper_functions_1_1;
             }],
         execute: function() {
             ExerciseSetForm = (function () {
@@ -65,31 +48,19 @@ System.register(['angular2/core', "./exercise-set", "../exercise/exercise.servic
                 ExerciseSetForm.prototype.addWorkoutExerciseSetDetail = function () {
                     var _this = this;
                     this._dcl.loadIntoLocation(exercise_set_details_form_component_1.ExerciseSetDetailsForm, this._elementRef, 'hook').then(function (ref) {
-                        ref.instance.test.subscribe(function (v) { _this.onSetDetailChange(v); }, function (e) { console.log("Error: " + e); }, function () { _this.deleteSetDetail(ref); });
+                        ref.instance.test.subscribe(function (v) { _this.onSetDetailChange(v); }, function (e) { console.log("Error: " + e); }, function () {
+                            _this.exerciseset.exercises = helper_functions_1.Helper.deleteSet(ref, _this.exerciseset.exercises, ref.instance.execiseSetDetail);
+                        });
                         ref.instance.execiseSetDetail.id = _this.id;
                         _this.id++;
                     });
                 };
                 ExerciseSetForm.prototype.remove = function () {
-                    this.output.complete();
+                    if (confirm("Are you sure you want to delete this set?"))
+                        this.output.complete();
                 };
                 ExerciseSetForm.prototype.onSetDetailChange = function ($event) {
-                    var found = false;
-                    for (var key in this.exerciseset.exercises) {
-                        if ($event.id == this.exerciseset.exercises[key].id) {
-                            found = true;
-                            this.exerciseset.exercises[key] = $event;
-                        }
-                    }
-                    if (!found)
-                        this.exerciseset.exercises.push($event);
-                    console.log($event);
-                    console.log(this.exerciseset);
-                };
-                ExerciseSetForm.prototype.deleteSetDetail = function (element) {
-                    _.reject(this.exerciseset.exercises, function (x) { return x.id == element.instance.execiseSetDetail.id; });
-                    console.log(element);
-                    //element.dispose();
+                    this.exerciseset.exercises = helper_functions_1.Helper.onChange($event, this.exerciseset.exercises);
                 };
                 ExerciseSetForm.prototype.updateWorkout = function (type) {
                     this.exerciseset.type = type;

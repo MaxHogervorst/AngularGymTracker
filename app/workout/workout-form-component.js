@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', 'angular2/router', "./workout.service", "./workout", "./exercise-set-form.component"], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/common', 'angular2/router', "./workout.service", "./workout", "./exercise-set-form.component", '../assets/helper.functions'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,24 +10,8 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "./worko
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_1, workout_service_1, workout_1, exercise_set_form_component_1;
+    var core_1, common_1, router_1, workout_service_1, workout_1, exercise_set_form_component_1, helper_functions_1;
     var WorkoutFormComponent;
-    function compileToComponent(template, directives) {
-        var FakeComponent = (function () {
-            function FakeComponent() {
-            }
-            FakeComponent = __decorate([
-                core_1.Component({
-                    selector: 'fake',
-                    template: template, directives: directives
-                }), 
-                __metadata('design:paramtypes', [])
-            ], FakeComponent);
-            return FakeComponent;
-        }());
-        ;
-        return FakeComponent;
-    }
     return {
         setters:[
             function (core_1_1) {
@@ -47,6 +31,9 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "./worko
             },
             function (exercise_set_form_component_1_1) {
                 exercise_set_form_component_1 = exercise_set_form_component_1_1;
+            },
+            function (helper_functions_1_1) {
+                helper_functions_1 = helper_functions_1_1;
             }],
         execute: function() {
             WorkoutFormComponent = (function () {
@@ -57,16 +44,24 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "./worko
                     this._dcl = _dcl;
                     this._elementRef = _elementRef;
                     this.workout = new workout_1.Workout();
+                    this.id = 1;
                     this.form = fb.group({});
                 }
                 WorkoutFormComponent.prototype.ngOnInit = function () {
-                    this.addWorkoutExerciseSet();
                     var id = this._routeParams.get("id");
                     this.title = id ? "Edit Workout" : "New Workout";
-                    this.workout.name = "test";
-                    if (!id)
+                    //new
+                    if (!id) {
+                        this.addWorkoutExerciseSet();
+                        this.workout.exerciseSets = [];
                         return;
+                    }
+                    //edit
                     this.workout = this._workoutService.getWorkout(id);
+                    console.log(this.workout);
+                    for (var key in this.workout.exerciseSets) {
+                        this.addWorkoutExerciseSet(this.workout.exerciseSets[key]);
+                    }
                 };
                 WorkoutFormComponent.prototype.routerCanDeactivate = function () {
                     ///if (this.form.dirty)
@@ -87,16 +82,22 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "./worko
                     });
                 };
                 WorkoutFormComponent.prototype.onSetChange = function ($event) {
-                    console.log($event);
+                    this.workout.exerciseSets = helper_functions_1.Helper.onChange($event, this.workout.exerciseSets);
                 };
-                WorkoutFormComponent.prototype.addWorkoutExerciseSet = function () {
+                WorkoutFormComponent.prototype.addWorkoutExerciseSet = function ($instance) {
                     var _this = this;
                     this._dcl.loadIntoLocation(exercise_set_form_component_1.ExerciseSetForm, this._elementRef, 'hook').then(function (ref) {
-                        ref.instance.output.subscribe(function (v) { _this.onSetChange(v); }, function (e) { console.log("Error: " + e); }, function () { _this.deleteSet(ref); });
+                        ref.instance.output.subscribe(function (v) { _this.onSetChange(v); }, function (e) { console.log("Error: " + e); }, function () {
+                            _this.workout.exerciseSets = helper_functions_1.Helper.deleteSet(ref, _this.workout.exerciseSets, ref.instance.exerciseset);
+                        });
+                        if (typeof $instance == 'undefined') {
+                            ref.instance.exerciseset.id = _this.id;
+                            _this.id++;
+                        }
+                        else {
+                            console.log($instance);
+                        }
                     });
-                };
-                WorkoutFormComponent.prototype.deleteSet = function (ref) {
-                    ref.dispose();
                 };
                 WorkoutFormComponent = __decorate([
                     core_1.Component({

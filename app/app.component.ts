@@ -11,6 +11,7 @@ import {WorkoutFormComponent} from "./workout/workout-form-component";
     { path: '/', name: 'Home', component: ExerciseComponent },
     { path: '/workouts', name: 'Workouts', component: WorkoutComponent },
     { path: '/workouts/new', name: 'NewWorkout', component: WorkoutFormComponent },
+    { path: '/workouts/:id', name: 'EditWorkout', component: WorkoutFormComponent },
     { path: '/*other', name: 'Other', redirectTo: ['Home'] }
 ])
 @Component({
